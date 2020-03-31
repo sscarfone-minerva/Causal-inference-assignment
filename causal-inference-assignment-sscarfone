@@ -266,7 +266,7 @@ X = cbind(foo$R_date_of_birth, foo$gender, foo$marital_status,
           foo$education, foo$occupation, foo$district_first,
           foo$worker, foo$capital, foo$credit_proposal,
           foo$worker_transformed, foo$capital_transformed, foo$credit_proposal_transformed,
-          foo$missing_date_of_birth,foo$NA_postal_code, foo$NA_capital, 
+          foo$missing_date_of_birth, foo$NA_capital, 
           foo$NA_credit_proposal)
 Tr <- foo$treat
 
@@ -276,23 +276,21 @@ genout <- GenMatch(Tr=Tr, X=X, BalanceMatrix=BalanceMat, estimand="ATT", M=1,
                    pop.size=20, max.generations=5, wait.generations=3,
                    exact = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
                   FALSE, FALSE, FALSE, TRUE, TRUE, TRUE,
-                  TRUE, TRUE, TRUE, TRUE), caliper = c(365, 0.000001,0.000001,
-                                                       0.000001,0.000001,0.000001,
-                                                       0.000001,0.000001,0.000001,
-                                                       0.000001,0.000001,0.000001,
-                                                       0.000001,0.000001,0.000001,
-                                                       0.000001))
+                  TRUE, TRUE, TRUE), caliper = c(365, 99999,99999,
+                                                       99999,99999,99999,
+                                                       99999,99999,99999,
+                                                       99999,99999,99999,
+                                                       99999,99999,99999))
 
 mout <- Match(Tr=Tr, X=X, estimand="ATT", M=1,
               exact = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
                         FALSE, FALSE, FALSE, TRUE, TRUE, TRUE,
-                        TRUE, TRUE, TRUE, TRUE), 
-              caliper = c(365, 0.000001,0.000001,
-                          0.000001,0.000001,0.000001,
-                          0.000001,0.000001,0.000001,
-                          0.000001,0.000001,0.000001,
-                          0.000001,0.000001,0.000001,
-                          0.000001),
+                        TRUE, TRUE, TRUE), 
+              caliper = c(365, 99999,99999,
+                          99999,99999,99999,
+                          99999,99999,99999,
+                          99999,99999,99999,
+                          99999,99999,99999)),
               Weight.matrix = genout)
 summary(mout)
 
@@ -303,7 +301,6 @@ mb <- MatchBalance(foo$treat~
                      foo$worker_transformed + foo$capital_transformed + 
                      foo$credit_proposal_transformed +
                      foo$missing_date_of_birth +
-                     foo$NA_postal_code +
                      foo$NA_capital +
                      foo$NA_credit_proposal,
                    match.out=mout, nboots=500)
